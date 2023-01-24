@@ -156,6 +156,7 @@ import {getCurrentInstance } from 'vue'
 import {ref, reactive, toRefs, onActivated} from 'vue'
 
 const route = useRoute();
+const router = useRouter();
 const { proxy } = getCurrentInstance();
 
 const tableList = ref([]);
@@ -200,7 +201,6 @@ onActivated(() => {
 /** 查询表集合 */
 function getList() {
   loading.value = true;
-  console.log(proxy.addDateRange(queryParams.value, dateRange.value))
   listTable(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
     tableList.value = response.rows;
     total.value = response.total;

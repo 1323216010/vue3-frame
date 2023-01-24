@@ -7,14 +7,17 @@ const router = createRouter({
     routes: [
         {
             path:'/',
-            redirect:'/home'
+            redirect:'/tool/gen'
         },
         {
-            path:'/home',
+            path:'/tool/gen',
 /*             component: () => import('../views/Home.vue') */
             component: () => import('../views/tool/gen/index.vue')
         },
-
+        {
+            path:'/tool/gen-edit/index/:tableId(\\d+)',
+            component: () => import('@/views/tool/gen/editTable.vue')
+        },
     ]
 })
 
