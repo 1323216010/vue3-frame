@@ -10,6 +10,7 @@ import { download } from '@/utils/request'
 const app = createApp(App);
 
 app.config.globalProperties.addDateRange = addDateRange
+app.config.globalProperties.handleTree = handleTree
 app.config.globalProperties.download = download
 
 app.use(router);
