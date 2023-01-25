@@ -11,6 +11,8 @@ import { parseTime, resetForm, addDateRange, handleTree, selectDictLabel, select
 import plugins from './plugins' // plugins
 import { download } from '@/utils/request'
 
+import '@/assets/styles/index.scss' // global css
+
 const app = createApp(App);
 
 app.config.globalProperties.addDateRange = addDateRange
