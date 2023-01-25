@@ -20,6 +20,7 @@ app.config.globalProperties.download = download
 app.use(store)
 app.use(router);
 app.use(plugins);
+app.use(elementIcons)
 // 使用element-plus 并且设置全局的大小
 app.use(ElementPlus, {
     locale: locale,
