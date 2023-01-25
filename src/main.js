@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import store from './store'
 import router from './router'
 import ElementPlus from 'element-plus'
 import locale from 'element-plus/lib/locale/lang/zh-cn' // 中文语言
@@ -16,13 +17,15 @@ app.config.globalProperties.addDateRange = addDateRange
 app.config.globalProperties.handleTree = handleTree
 app.config.globalProperties.download = download
 
+app.use(store)
 app.use(router);
 app.use(plugins);
 // 使用element-plus 并且设置全局的大小
 app.use(ElementPlus, {
     locale: locale,
     // 支持 large、default、small
-  })
+    size: 'default'
+})
   
 
 app.mount('#app');

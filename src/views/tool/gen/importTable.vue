@@ -50,8 +50,6 @@
 
 <script setup>
 import { listDbTable, importTable } from "@/api/tool/gen";
-import {ref, reactive, toRefs, onActivated} from 'vue'
-import {getCurrentInstance } from 'vue'
 
 const total = ref(0);
 const visible = ref(false);

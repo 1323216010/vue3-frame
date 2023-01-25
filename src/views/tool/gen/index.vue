@@ -150,10 +150,7 @@
 
 <script setup name="Gen">
 import { listTable, previewTable, delTable, genCode, synchDb } from "@/api/tool/gen";
-import { useRouter, useRoute } from "vue-router";
 import importTable from "./importTable.vue";
-import {getCurrentInstance } from 'vue'
-import {ref, reactive, toRefs, onActivated} from 'vue'
 
 const route = useRoute();
 const router = useRouter();
@@ -224,7 +221,7 @@ function handleGenTable(row) {
       proxy.$modal.msgSuccess("成功生成到自定义路径：" + row.genPath);
     });
   } else {
-    proxy.$download.zip("/code/gen/batchGenCode?tables=" + tbNames, "ruoyi.zip");
+    proxy.$download.zip("/gen/batchGenCode?tables=" + tbNames, "ruoyi.zip");
   }
 }
 /** 同步数据库操作 */

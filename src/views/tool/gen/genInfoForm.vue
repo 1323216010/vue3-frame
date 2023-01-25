@@ -224,8 +224,6 @@
 
 <script setup>
 import { listMenu } from "@/api/system/menu";
-import {ref, watch} from 'vue'
-import {getCurrentInstance } from 'vue'
 
 const subColumns = ref([]);
 const menuOptions = ref([]);

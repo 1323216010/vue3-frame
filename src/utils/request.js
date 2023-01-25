@@ -3,7 +3,7 @@ import axios from 'axios'
 // 1.创建一个单例（实例）
 const instance = axios.create({
     //一个接口前的统一地址
-    baseURL: "http://localhost:8080",
+    baseURL: import.meta.env.VITE_APP_BASE_API,
     //超时的时间
     timeout: 10000, 
 });
