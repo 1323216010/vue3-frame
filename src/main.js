@@ -12,11 +12,17 @@ import { download } from '@/utils/request'
 
 import '@/assets/styles/index.scss' // global css
 
+// 分页组件
+import Pagination from '@/components/Pagination'
+
 const app = createApp(App);
 
 app.config.globalProperties.addDateRange = addDateRange
 app.config.globalProperties.handleTree = handleTree
 app.config.globalProperties.download = download
+
+// 全局组件挂载
+app.component('Pagination', Pagination)
 
 app.use(store)
 app.use(router);
