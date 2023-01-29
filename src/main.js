@@ -14,6 +14,8 @@ import '@/assets/styles/index.scss' // global css
 
 // 分页组件
 import Pagination from '@/components/Pagination'
+//vue自定义指令
+import directive from './directive' // directive
 
 const app = createApp(App);
 
@@ -28,5 +30,7 @@ app.use(store)
 app.use(router);
 app.use(plugins);
 app.use(elementIcons)
+
+directive(app)
 
 app.mount('#app');
