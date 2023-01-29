@@ -218,7 +218,7 @@ function handleGenTable(row) {
       proxy.$modal.msgSuccess("成功生成到自定义路径：" + row.genPath);
     });
   } else {
-    proxy.$download.zip("/gen/batchGenCode?tables=" + tbNames, "ruoyi.zip");
+    proxy.$download.zip("/gen/batchGenCode?tables=" + tbNames, "yan.zip");
   }
 }
 /** 同步数据库操作 */
