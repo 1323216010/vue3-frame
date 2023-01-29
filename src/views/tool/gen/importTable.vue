@@ -23,6 +23,22 @@
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
+    <el-form :model="language" ref="languageRef" :inline="true">
+        <el-form-item label="后端" prop="backEnd">
+          <el-select v-model="language.backEnd" style="width:206px">
+            <el-option label="Java" value="Java" />
+            <el-option label="Golang" value="Golang" />
+            <el-option label="Python" value="Python" />
+          </el-select>
+        </el-form-item>
+    
+      <el-form-item label="前端" prop="frontEnd">
+        <el-select v-model="language.frontEnd" style="width:206px">
+          <el-option label="Vue2" value="Vue2" />
+          <el-option label="Vue3" value="Vue3" />
+        </el-select>
+      </el-form-item>
+    </el-form>
     <el-row>
       <el-table @row-click="clickRow" ref="table" :data="dbTableList" @selection-change="handleSelectionChange" height="260px">
         <el-table-column type="selection" width="55"></el-table-column>
@@ -49,7 +65,8 @@
 </template>
 
 <script setup>
-import { listDbTable, importTable } from "@/api/tool/gen";
+import { listDbTable, importTable, getlanguage, setLanguage } from "@/api/tool/gen";
+import { create } from "lodash";
 
 const total = ref(0);
 const visible = ref(false);
@@ -64,8 +81,18 @@ const queryParams = reactive({
   tableComment: undefined
 });
 
+const language = reactive({
+  backEnd: null,
+  frontEnd: null
+});
 const emit = defineEmits(["ok"]);
 
+onMounted(() => {
+  getlanguage().then(res => {
+    language.backEnd = res.data.backEnd
+    language.frontEnd = res.data.frontEnd
+  })
+})
 /** 查询参数列表 */
 function show() {
   getList();
@@ -97,12 +124,13 @@ function resetQuery() {
   handleQuery();
 }
 /** 导入按钮操作 */
-function handleImportTable() {
+async function handleImportTable() {
   const tableNames = tables.value.join(",");
   if (tableNames == "") {
     proxy.$modal.msgError("请选择要导入的表");
     return;
   }
+  await setLanguage(language.backEnd, language.frontEnd)
   importTable({ tables: tableNames }).then(res => {
     proxy.$modal.msgSuccess(res.msg);
     if (res.code === 200) {
@@ -116,3 +144,7 @@ defineExpose({
   show,
 });
 </script>
+
+<style scoped>
+
+</style>

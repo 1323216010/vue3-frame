@@ -17,6 +17,14 @@ export function listDbTable(query) {
   })
 }
 
+// 查询前后端设置
+export function getlanguage() {
+  return request({
+    url: '/gen/getlanguage',
+    method: 'get',
+  })
+}
+
 // 查询表详细信息
 export function getGenTable(tableId) {
   return request({
@@ -40,6 +48,14 @@ export function importTable(data) {
     url: '/gen/importTable',
     method: 'post',
     params: data
+  })
+}
+
+// 设置前后端
+export function setLanguage(backEnd, frontEnd) {
+  return request({
+    url: '/gen/setLanguage/' + backEnd + '/' + frontEnd,
+    method: 'get',
   })
 }
 
