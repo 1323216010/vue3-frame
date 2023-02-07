@@ -3,12 +3,10 @@
       {
         "source": "/prod-api/:match*",
         "destination": "http://111.230.194.21:8080/:match*"
-      }
-    ],
-    "routes": [
+      },
       {
-        "src": "/*",
-        "dest": "/index.html"
+        "source": "/tool/gen",
+        "destination": "/index.html"
       }
     ]
 }
