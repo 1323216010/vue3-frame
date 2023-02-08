@@ -7,6 +7,10 @@
       {
         "source": "/tool/gen",
         "destination": "/index.html"
+      },
+      {
+        "source": "/api",
+        "destination": "https://dog.ceo/api/breeds/image/random"
       }
     ]
 }
