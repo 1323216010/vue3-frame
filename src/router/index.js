@@ -18,6 +18,14 @@ const router = createRouter({
             path:'/tool/gen-edit/index/:tableId(\\d+)',
             component: () => import('@/views/tool/gen/editTable.vue')
         },
+        {
+            path:'/autoCodeAdmin',
+            component: () => import('../views/autoCodeAdmin/autoCodeAdmin.vue')
+        },
+        {
+            path:'/autoCode',
+            component: () => import('../views/autoCode/index.vue')
+        },
     ]
 })
 
