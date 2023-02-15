@@ -3,10 +3,6 @@
       {
         "source": "/prod-api/:match*",
         "destination": "http://111.230.194.21:255/:match*"
-      },
-      {
-        "source": "/prod-api/autoCode/:match*",
-        "destination": "http://111.230.194.21:233/autoCode/:match*"
       }
     ]
 }
