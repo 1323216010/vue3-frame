@@ -4,11 +4,11 @@
     <div class="app-container">
       <el-form :inline="true">
         <el-form-item>
-          <el-button type="primary" @click="dialogVisible = true" icon="plus" plain>导入表结构</el-button>
+          <el-button type="primary" @click="dialogVisible = true" icon="edit" plain>表结构</el-button>
           <el-button type="primary" @click="editAndAddField()" icon="plus" plain>新增字段</el-button>
-          <el-button  type="primary" @click="enterForm(true)" plain>预览</el-button>
-        <el-button type="primary" @click="enterForm(false)" plain icon="download" >生成</el-button>
-        <el-button icon="Refresh" @click="reset" >重置</el-button>
+          <el-button type="primary" @click="enterForm(true)" plain>预览</el-button>
+          <el-button type="primary" @click="enterForm(false)" plain icon="download">生成</el-button>
+          <el-button icon="Refresh" @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
       <el-table :data="form.fields">
@@ -128,7 +128,8 @@
           <el-row>
             <el-col :span="21">
               <el-select v-model="dbform.dbName" clearable filterable placeholder="请选择数据库" @change="getTableFunc">
-                <el-option v-for="item in dbOptions" :key="item.database" :label="item.database" :value="item.database" />
+                <el-option v-for="item in dbOptions" :key="item.database" :label="item.database"
+                  :value="item.database" />
               </el-select>
             </el-col>
           </el-row>
@@ -137,9 +138,9 @@
           <el-row>
             <el-col :span="21">
               <el-select v-model="dbform.tableName" :disabled="!dbform.dbName" filterable placeholder="请选择表">
-            <el-option v-for="item in tableOptions" :key="item.tableName" :label="item.tableName"
-              :value="item.tableName" />
-          </el-select>
+                <el-option v-for="item in tableOptions" :key="item.tableName" :label="item.tableName"
+                  :value="item.tableName" />
+              </el-select>
             </el-col>
           </el-row>
         </el-form-item>
@@ -196,7 +197,7 @@
 
         <p style="text-align:center">
           <el-button @click="reset" plain>取消</el-button>
-          <el-button @click="dialogVisible = false" type="primary">确定</el-button>
+          <el-button @click="f" type="primary">确定</el-button>
         </p>
       </el-form>
     </el-dialog>
@@ -411,7 +412,7 @@ const enterForm = async (isPreview) => {
   if (form.value.fields.length <= 0) {
     ElMessage({
       type: 'error',
-      message: '请填写至少一个field'
+      message: '请填写至少一个字段'
     })
     return false
   }
@@ -421,6 +422,13 @@ const enterForm = async (isPreview) => {
     ElMessage({
       type: 'error',
       message: '存在与结构体同名的字段'
+    })
+    return false
+  }
+  if (form.value.package == null || form.value.package == undefined || form.value.package == '') {
+    ElMessage({
+      message: '包名不能为空！',
+      type: 'warning',
     })
     return false
   }
@@ -439,7 +447,7 @@ const enterForm = async (isPreview) => {
       if (form.value.structName === form.value.abbreviation) {
         ElMessage({
           type: 'error',
-          message: 'structName和struct简称不能相同'
+          message: '结构体名和结构体简称不能相同'
         })
         return false
       }
@@ -549,7 +557,7 @@ const getColumnFunc = async () => {
           })
         }
       })
-      clear()
+    clear()
   }
 }
 const setFdMap = async () => {
@@ -599,6 +607,17 @@ watch(() => route.params.id, (id) => {
 
 function reset() {
   form.value = {}
+  dialogVisible.value = false
+}
+function f() {
+  if (form.value.package == null || form.value.package == undefined || form.value.package == '') {
+    ElMessage({
+      message: '包名不能为空！',
+      type: 'warning',
+      offset: 70
+    })
+    return
+  }
   dialogVisible.value = false
 }
 function clear() {
