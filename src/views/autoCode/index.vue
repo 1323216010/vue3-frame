@@ -186,6 +186,11 @@
           </template>
           <el-checkbox v-model="form.autoMoveFile" />
         </el-form-item>
+
+        <p style="text-align:center">
+          <el-button @click="reset" plain>取消</el-button>
+          <el-button @click="dialogVisible = false" type="primary">确定</el-button>
+        </p>
       </el-form>
     </el-dialog>
   </div>
@@ -538,7 +543,6 @@ const getColumnFunc = async () => {
           })
         }
       })
-    dialogVisible.value = false
   }
 }
 const setFdMap = async () => {
@@ -586,6 +590,10 @@ watch(() => route.params.id, (id) => {
   }
 })
 
+function reset() {
+  form.value = {}
+  dialogVisible.value = false
+}
 </script>
 
 <script>
