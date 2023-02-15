@@ -2,7 +2,7 @@
     "rewrites": [
       {
         "source": "/prod-api/:match*",
-        "destination": "http://111.230.194.21:8080/:match*"
+        "destination": "http://111.230.194.21:255/:match*"
       },
       {
         "source": "/prod-api/autoCode/:match*",
