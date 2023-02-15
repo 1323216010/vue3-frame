@@ -11,103 +11,67 @@
       <el-table :data="form.fields">
         <el-table-column align="left" type="index" label="序列" width="60" />
         <el-table-column align="left" prop="fieldName" label="Field名" width="160">
-          <template #default="{row}">
+          <template #default="{ row }">
             <el-input v-model="row.fieldName" />
           </template>
         </el-table-column>
         <el-table-column align="left" prop="fieldDesc" label="中文名" width="160">
-          <template #default="{row}">
+          <template #default="{ row }">
             <el-input v-model="row.fieldDesc" />
           </template>
         </el-table-column>
         <el-table-column align="left" prop="require" label="必填">
-          <template #default="{row}"> <el-checkbox v-model="row.require" /></template>
+          <template #default="{ row }"> <el-checkbox v-model="row.require" /></template>
         </el-table-column>
         <el-table-column align="left" prop="sort" label="排序">
-          <template #default="{row}"> <el-checkbox v-model="row.sort" /> </template>
+          <template #default="{ row }"> <el-checkbox v-model="row.sort" /> </template>
         </el-table-column>
         <el-table-column align="left" prop="fieldJson" width="160px" label="FieldJson">
-          <template #default="{row}">
+          <template #default="{ row }">
             <el-input v-model="row.fieldJson" />
           </template>
         </el-table-column>
         <el-table-column align="left" prop="fieldType" label="Field数据类型" width="160">
-          <template #default="{row}">
-            <el-select
-              v-model="row.fieldType"
-              style="width:100%"
-              placeholder="请选择field数据类型"
-              clearable
-            >
-              <el-option
-                v-for="item in typeOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
+          <template #default="{ row }">
+            <el-select v-model="row.fieldType" style="width:100%" placeholder="请选择field数据类型" clearable>
+              <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </template>
         </el-table-column>
         <el-table-column align="left" prop="dataTypeLong" label="数据库字段长度" width="160">
-          <template #default="{row}">
+          <template #default="{ row }">
             <el-input v-model="row.dataTypeLong" />
           </template>
         </el-table-column>
         <el-table-column align="left" prop="columnName" label="数据库字段" width="160">
-          <template #default="{row}">
+          <template #default="{ row }">
             <el-input v-model="row.columnName" />
           </template>
         </el-table-column>
         <el-table-column align="left" prop="comment" label="数据库字段描述" width="160">
-          <template #default="{row}">
+          <template #default="{ row }">
             <el-input v-model="row.columnName" />
           </template>
         </el-table-column>
         <el-table-column align="left" prop="fieldSearchType" label="搜索条件" width="130">
-          <template #default="{row}">
-            <el-select
-              v-model="row.fieldSearchType"
-              style="width:100%"
-              placeholder="请选择Field查询条件"
-              clearable
-            >
-              <el-option
-                v-for="item in typeSearchOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+          <template #default="{ row }">
+            <el-select v-model="row.fieldSearchType" style="width:100%" placeholder="请选择Field查询条件" clearable>
+              <el-option v-for="item in typeSearchOptions" :key="item.value" :label="item.label" :value="item.value"
                 :disabled="
-                  (row.fieldType!=='string'&&item.value==='LIKE')||
-                    ((row.fieldType!=='int'&&row.fieldType!=='time.Time'&&row.fieldType!=='float64')&&(item.value==='BETWEEN' || item.value==='NOT BETWEEN'))
-                "
-              />
+                  (row.fieldType !== 'string' && item.value === 'LIKE') ||
+                  ((row.fieldType !== 'int' && row.fieldType !== 'time.Time' && row.fieldType !== 'float64') && (item.value === 'BETWEEN' || item.value === 'NOT BETWEEN'))
+                " />
             </el-select>
           </template>
 
         </el-table-column>
         <el-table-column align="left" label="操作" width="300" fixed="right">
           <template #default="scope">
-            <el-button
-              size="small"
-              type="primary"
-              link
-              icon="edit"
-              @click="editAndAddField(scope.row)"
-            >高级编辑</el-button>
-            <el-button
-              size="small"
-              type="primary"
-              link
-              :disabled="scope.$index === 0"
-              @click="moveUpField(scope.$index)"
-            >上移</el-button>
-            <el-button
-              size="small"
-              type="primary"
-              link
-              :disabled="(scope.$index + 1) === form.fields.length"
-              @click="moveDownField(scope.$index)"
-            >下移</el-button>
+            <el-button size="small" type="primary" link icon="edit" @click="editAndAddField(scope.row)">高级编辑</el-button>
+            <el-button size="small" type="primary" link :disabled="scope.$index === 0"
+              @click="moveUpField(scope.$index)">上移</el-button>
+            <el-button size="small" type="primary" link :disabled="(scope.$index + 1) === form.fields.length"
+              @click="moveDownField(scope.$index)">下移</el-button>
             <el-popover v-model="scope.row.visible" placement="top">
               <p>确定删除吗？</p>
               <div style="text-align: right; margin-top: 8px;">
@@ -115,7 +79,8 @@
                 <el-button type="primary" size="small" @click="deleteField(scope.$index)">确定</el-button>
               </div>
               <template #reference>
-                <el-button size="small" type="primary" link icon="delete" @click="scope.row.visible = true">删除</el-button>
+                <el-button size="small" type="primary" link icon="delete"
+                  @click="scope.row.visible = true">删除</el-button>
               </template>
             </el-popover>
           </template>
@@ -129,48 +94,7 @@
     </div>
 
     <div class="app-container">
-      <!-- 初始版本自动化代码工具 -->
-      <el-form ref="autoCodeForm" :rules="rules" :model="form" :inline="true" label-width="120px">
-        <el-form-item label="结构体名" prop="structName">
-          <el-input v-model="form.structName" placeholder="首字母自动转换大写" />
-        </el-form-item>
-        <el-form-item label="表名" prop="tableName">
-          <el-input v-model="form.tableName" placeholder="指定表名（非必填）" />
-        </el-form-item>
-        <el-form-item label="结构体简称" prop="abbreviation">
-          <el-input v-model="form.abbreviation" placeholder="简称会作为入参对象名和路由group" />
-        </el-form-item>
-        <el-form-item label="结构体中文名" prop="description">
-          <el-input v-model="form.description" placeholder="中文描述作为自动api描述" />
-        </el-form-item>
-        <el-form-item label="文件名" prop="packageName">
-          <el-input v-model="form.packageName" placeholder="建议为驼峰格式" @blur="toLowerCaseFunc(form,'packageName')" />
-        </el-form-item>
-        <el-form-item label="包名" prop="package">
-          <el-select v-model="form.package" style="width:194px">
-            <el-option v-for="item in pkgs" :key="item.ID" :value="item.packageName" :label="item.packageName" />
-          </el-select>
-          <el-icon class="auto-icon" @click="getPkgs"><refresh /></el-icon>
-          <el-icon class="auto-icon" @click="goPkgs"><document-add /></el-icon>
-        </el-form-item>
 
-        <el-form-item>
-          <template #label>
-            <el-tooltip content="注：把自动生成的API注册进数据库" placement="bottom" effect="light">
-              <div> 自动创建API </div>
-            </el-tooltip>
-          </template>
-          <el-checkbox v-model="form.autoCreateApiToSql" />
-        </el-form-item>
-        <el-form-item>
-          <template #label>
-            <el-tooltip content="注：自动迁移生成的文件到yaml配置的对应位置" placement="bottom" effect="light">
-              <div> 自动移动文件 </div>
-            </el-tooltip>
-          </template>
-          <el-checkbox v-model="form.autoMoveFile" />
-        </el-form-item>
-      </el-form>
     </div>
 
     <!-- 组件弹窗 -->
@@ -202,35 +126,67 @@
 
     <el-dialog v-model="dialogVisible">
       <el-form ref="getTableForm" style="margin-top:24px" :inline="true" :model="dbform" label-width="120px">
-            <el-form-item label="数据库名" prop="structName">
-              <el-select v-model="dbform.dbName" clearable filterable placeholder="请选择数据库" @change="getTableFunc">
-                <el-option
-                  v-for="item in dbOptions"
-                  :key="item.database"
-                  :label="item.database"
-                  :value="item.database"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="表名" prop="structName">
-              <el-select
-                v-model="dbform.tableName"
-                :disabled="!dbform.dbName"
-                filterable
-                placeholder="请选择表"
-              >
-                <el-option
-                  v-for="item in tableOptions"
-                  :key="item.tableName"
-                  :label="item.tableName"
-                  :value="item.tableName"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item>
-              <el-button size="small" type="primary" @click="getColumnFunc">使用此表创建</el-button>
-            </el-form-item>
-          </el-form>
+        <el-form-item label="数据库名" prop="structName">
+          <el-select v-model="dbform.dbName" clearable filterable placeholder="请选择数据库" @change="getTableFunc">
+            <el-option v-for="item in dbOptions" :key="item.database" :label="item.database" :value="item.database" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="表名" prop="structName" label-width="98px">
+          <el-select v-model="dbform.tableName" :disabled="!dbform.dbName" filterable placeholder="请选择表">
+            <el-option v-for="item in tableOptions" :key="item.tableName" :label="item.tableName"
+              :value="item.tableName" />
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button size="small" type="primary" @click="getColumnFunc">使用此表创建</el-button>
+        </el-form-item>
+      </el-form>
+
+      <!-- 初始版本自动化代码工具 -->
+      <el-form ref="autoCodeForm" :rules="rules" :model="form" :inline="true" label-width="120px">
+        <el-form-item label="结构体名" prop="structName">
+          <el-input v-model="form.structName" placeholder="首字母自动转换大写" />
+        </el-form-item>
+        <el-form-item label="表名" prop="tableName">
+          <el-input v-model="form.tableName" placeholder="指定表名（非必填）" />
+        </el-form-item>
+        <el-form-item label="结构体简称" prop="abbreviation">
+          <el-input v-model="form.abbreviation" placeholder="简称会作为入参对象名和路由group" />
+        </el-form-item>
+        <el-form-item label="结构体中文名" prop="description">
+          <el-input v-model="form.description" placeholder="中文描述作为自动api描述" />
+        </el-form-item>
+        <el-form-item label="文件名" prop="packageName">
+          <el-input v-model="form.packageName" placeholder="建议为驼峰格式" @blur="toLowerCaseFunc(form, 'packageName')" />
+        </el-form-item>
+        <el-form-item label="包名" prop="package">
+          <el-select v-model="form.package" style="width:194px">
+            <el-option v-for="item in pkgs" :key="item.ID" :value="item.packageName" :label="item.packageName" />
+          </el-select>
+          <el-icon class="auto-icon" @click="getPkgs">
+            <refresh />
+          </el-icon>
+          <el-icon class="auto-icon" @click="goPkgs"><document-add /></el-icon>
+        </el-form-item>
+
+        <br>
+        <el-form-item>
+          <template #label>
+            <el-tooltip content="注：把自动生成的API注册进数据库" placement="bottom" effect="light">
+              <div> 自动创建API </div>
+            </el-tooltip>
+          </template>
+          <el-checkbox v-model="form.autoCreateApiToSql" />
+        </el-form-item>
+        <el-form-item>
+          <template #label>
+            <el-tooltip content="注：自动迁移生成的文件到yaml配置的对应位置" placement="bottom" effect="light">
+              <div> 自动移动文件 </div>
+            </el-tooltip>
+          </template>
+          <el-checkbox v-model="form.autoMoveFile" />
+        </el-form-item>
+      </el-form>
     </el-dialog>
   </div>
 </template>
@@ -438,7 +394,7 @@ const deleteField = (index) => {
   form.value.fields.splice(index, 1)
 }
 const autoCodeForm = ref(null)
-const enterForm = async(isPreview) => {
+const enterForm = async (isPreview) => {
   if (form.value.fields.length <= 0) {
     ElMessage({
       type: 'error',
@@ -523,7 +479,7 @@ const enterForm = async(isPreview) => {
 const dbList = ref([])
 const dbOptions = ref([])
 
-const getDbFunc = async() => {
+const getDbFunc = async () => {
   dbform.value.dbName = ''
   dbform.value.tableName = ''
   const res = await getDB({ businessDB: dbform.value.businessDB })
@@ -532,7 +488,7 @@ const getDbFunc = async() => {
     dbList.value = res.data.dbList
   }
 }
-const getTableFunc = async() => {
+const getTableFunc = async () => {
   const res = await getTable({ businessDB: dbform.value.businessDB, dbName: dbform.value.dbName })
   if (res.code === 0) {
     tableOptions.value = res.data.tables
@@ -540,7 +496,7 @@ const getTableFunc = async() => {
   dbform.value.tableName = ''
 }
 
-const getColumnFunc = async() => {
+const getColumnFunc = async () => {
   const gormModelList = ['id', 'created_at', 'updated_at', 'deleted_at']
   const res = await getColumn(dbform.value)
   if (res.code === 0) {
@@ -559,33 +515,33 @@ const getColumnFunc = async() => {
     form.value.abbreviation = tbHump
     form.value.description = tbHump + '表'
     form.value.autoCreateApiToSql = true
-/*     form.value.autoMoveFile = true */
+    /*     form.value.autoMoveFile = true */
     form.value.fields = []
     res.data.columns &&
-          res.data.columns.forEach(item => {
-            if (!gormModelList.some(gormfd => gormfd === item.columnName)) {
-              const fbHump = toHump(item.columnName)
-              form.value.fields.push({
-                fieldName: toUpperCase(fbHump),
-                fieldDesc: item.columnComment || fbHump + '字段',
-                fieldType: fdMap.value[item.dataType],
-                dataType: item.dataType,
-                fieldJson: fbHump,
-                dataTypeLong: item.dataTypeLong && item.dataTypeLong.split(',')[0],
-                columnName: dbtype == 'oracle' ? item.columnName.toUpperCase() : item.columnName,
-                comment: item.columnComment,
-                require: false,
-                errorText: '',
-                clearable: true,
-                fieldSearchType: '',
-                dictType: ''
-              })
-            }
+      res.data.columns.forEach(item => {
+        if (!gormModelList.some(gormfd => gormfd === item.columnName)) {
+          const fbHump = toHump(item.columnName)
+          form.value.fields.push({
+            fieldName: toUpperCase(fbHump),
+            fieldDesc: item.columnComment || fbHump + '字段',
+            fieldType: fdMap.value[item.dataType],
+            dataType: item.dataType,
+            fieldJson: fbHump,
+            dataTypeLong: item.dataTypeLong && item.dataTypeLong.split(',')[0],
+            columnName: dbtype == 'oracle' ? item.columnName.toUpperCase() : item.columnName,
+            comment: item.columnComment,
+            require: false,
+            errorText: '',
+            clearable: true,
+            fieldSearchType: '',
+            dictType: ''
           })
-    dialogVisible.value = false      
+        }
+      })
+    dialogVisible.value = false
   }
 }
-const setFdMap = async() => {
+const setFdMap = async () => {
   const fdTypes = ['string', 'int', 'bool', 'float64', 'time.Time']
   fdTypes.forEach(async fdtype => {
     const res = await getDict(fdtype)
@@ -594,7 +550,7 @@ const setFdMap = async() => {
     })
   })
 }
-const getAutoCodeJson = async(id) => {
+const getAutoCodeJson = async (id) => {
   const res = await getMeta({ id: Number(id) })
   if (res.code === 0) {
     form.value = JSON.parse(res.data.meta)
@@ -602,7 +558,7 @@ const getAutoCodeJson = async(id) => {
 }
 
 const pkgs = ref([])
-const getPkgs = async() => {
+const getPkgs = async () => {
   const res = await getPackageApi()
   if (res.code === 0) {
     pkgs.value = res.data.pkgs
@@ -640,22 +596,26 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .previewCodeTool {
-    display: flex;
-    align-items: center;
-    padding: 5px 0;
-  }
+.previewCodeTool {
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+}
+
 .button-box {
   padding: 10px 20px;
+
   .el-button {
     margin-right: 20px;
     float: right;
   }
 }
-.auto-btn-list{
+
+.auto-btn-list {
   margin-top: 16px;
 }
-.auto-icon{
+
+.auto-icon {
   margin-left: 6px;
   color: #666;
   cursor: pointer;
