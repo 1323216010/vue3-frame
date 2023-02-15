@@ -5,6 +5,10 @@
         "destination": "http://111.230.194.21:255/:match*"
       },
       {
+        "source": "/tool/gen/",
+        "destination": "index.html"
+      },
+      {
         "source": "/api/:match*",
         "destination": "https://www.baidu.com/:match*"
       }
