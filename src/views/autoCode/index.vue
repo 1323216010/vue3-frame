@@ -4,8 +4,11 @@
     <div class="app-container">
       <el-form :inline="true">
         <el-form-item>
-          <el-button type="primary" @click="dialogVisible = true" icon="download" size="small">导入表</el-button>
-          <el-button type="primary" @click="editAndAddField()" icon="plus" size="small">新增字段</el-button>
+          <el-button type="primary" @click="dialogVisible = true" icon="plus" plain>导入表结构</el-button>
+          <el-button type="primary" @click="editAndAddField()" icon="plus" plain>新增字段</el-button>
+          <el-button  type="primary" @click="enterForm(true)" plain>预览</el-button>
+        <el-button type="primary" @click="enterForm(false)" plain icon="download" >生成</el-button>
+        <el-button icon="Refresh" @click="resetQuery" >重置</el-button>
         </el-form-item>
       </el-form>
       <el-table :data="form.fields">
@@ -86,11 +89,6 @@
           </template>
         </el-table-column>
       </el-table>
-      <!-- 组件列表 -->
-      <div class="gva-btn-list justify-content-flex-end auto-btn-list">
-        <el-button size="small" type="primary" @click="enterForm(true)">预览代码</el-button>
-        <el-button size="small" type="primary" @click="enterForm(false)">生成代码</el-button>
-      </div>
     </div>
 
     <div class="app-container">
@@ -127,16 +125,25 @@
     <el-dialog v-model="dialogVisible">
       <el-form ref="getTableForm" style="margin-top:24px" :inline="true" :model="dbform" label-width="120px">
         <el-form-item label="数据库名" prop="structName">
-          <el-select v-model="dbform.dbName" clearable filterable placeholder="请选择数据库" @change="getTableFunc">
-            <el-option v-for="item in dbOptions" :key="item.database" :label="item.database" :value="item.database" />
-          </el-select>
+          <el-row>
+            <el-col :span="21">
+              <el-select v-model="dbform.dbName" clearable filterable placeholder="请选择数据库" @change="getTableFunc">
+                <el-option v-for="item in dbOptions" :key="item.database" :label="item.database" :value="item.database" />
+              </el-select>
+            </el-col>
+          </el-row>
         </el-form-item>
         <el-form-item label="表名" prop="structName" label-width="98px">
-          <el-select v-model="dbform.tableName" :disabled="!dbform.dbName" filterable placeholder="请选择表">
+          <el-row>
+            <el-col :span="21">
+              <el-select v-model="dbform.tableName" :disabled="!dbform.dbName" filterable placeholder="请选择表">
             <el-option v-for="item in tableOptions" :key="item.tableName" :label="item.tableName"
               :value="item.tableName" />
           </el-select>
+            </el-col>
+          </el-row>
         </el-form-item>
+
         <el-form-item>
           <el-button size="small" type="primary" @click="getColumnFunc">使用此表创建</el-button>
         </el-form-item>
