@@ -1,153 +1,13 @@
 <template>
   <div>
-    <warning-bar href="https://www.bilibili.com/video/BV1kv4y1g7nT?p=3" title="此功能为开发环境使用，不建议发布到生产，具体使用效果请看视频https://www.bilibili.com/video/BV1kv4y1g7nT?p=3" />
-    <!-- 从数据库直接获取字段 -->
-    <div class="gva-search-box">
-      <el-collapse v-model="activeNames" style="margin-bottom:12px">
-        <el-collapse-item name="1">
-          <template #title>
-            <div :style="{fontSize:'16px',paddingLeft:'20px'}">
-              点这里从现有数据库创建代码
-              <el-icon class="header-icon ">
-                <pointer />
-              </el-icon>
-            </div>
-          </template>
-          <el-form ref="getTableForm" style="margin-top:24px" :inline="true" :model="dbform" label-width="120px">
-            <el-form-item label="业务库" prop="selectDBtype">
-              <template #label>
-                <el-tooltip content="注：需要提前到db-list自行配置多数据库，如未配置需配置后重启服务方可使用。（此处可选择对应库表，可理解为从哪个库选择表）" placement="bottom" effect="light">
-                  <div> 业务库 <el-icon><QuestionFilled /></el-icon> </div>
-                </el-tooltip>
-              </template>
-              <el-select v-model="dbform.businessDB" clearable style="width:194px" placeholder="选择业务库" @change="getDbFunc">
-                <el-option
-                  v-for="item in dbList"
-                  :key="item.aliasName"
-                  :value="item.aliasName"
-                  :label="item.aliasName"
-                  :disabled="item.disable"
-                >
-                  <div>
-                    <span>{{ item.aliasName }}</span>
-                    <span style="float:right;color:#8492a6;font-size:13px">{{ item.dbName }}</span>
-                  </div>
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="数据库名" prop="structName">
-              <el-select v-model="dbform.dbName" clearable filterable placeholder="请选择数据库" @change="getTableFunc">
-                <el-option
-                  v-for="item in dbOptions"
-                  :key="item.database"
-                  :label="item.database"
-                  :value="item.database"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="表名" prop="structName">
-              <el-select
-                v-model="dbform.tableName"
-                :disabled="!dbform.dbName"
-                filterable
-                placeholder="请选择表"
-              >
-                <el-option
-                  v-for="item in tableOptions"
-                  :key="item.tableName"
-                  :label="item.tableName"
-                  :value="item.tableName"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item>
-              <el-button size="small" type="primary" @click="getColumnFunc">使用此表创建</el-button>
-            </el-form-item>
-          </el-form>
-        </el-collapse-item>
-      </el-collapse>
-    </div>
-    <div class="gva-search-box">
-      <!-- 初始版本自动化代码工具 -->
-      <el-form ref="autoCodeForm" :rules="rules" :model="form" label-width="120px" :inline="true">
-        <el-form-item label="Struct名称" prop="structName">
-          <el-input v-model="form.structName" placeholder="首字母自动转换大写" />
-        </el-form-item>
-        <el-form-item label="TableName" prop="tableName">
-          <el-input v-model="form.tableName" placeholder="指定表名（非必填）" />
-        </el-form-item>
-        <el-form-item label="Struct简称" prop="abbreviation">
-          <el-input v-model="form.abbreviation" placeholder="简称会作为入参对象名和路由group" />
-        </el-form-item>
-        <el-form-item label="Struct中文名称" prop="description">
-          <el-input v-model="form.description" placeholder="中文描述作为自动api描述" />
-        </el-form-item>
-        <el-form-item label="文件名称" prop="packageName">
-          <el-input v-model="form.packageName" placeholder="生成文件的默认名称(建议为驼峰格式,首字母小写,如sysXxxXxxx)" @blur="toLowerCaseFunc(form,'packageName')" />
-        </el-form-item>
-        <el-form-item label="Package（包）" prop="package">
-          <el-select v-model="form.package" style="width:194px">
-            <el-option v-for="item in pkgs" :key="item.ID" :value="item.packageName" :label="item.packageName" />
-          </el-select>
-          <el-icon class="auto-icon" @click="getPkgs"><refresh /></el-icon>
-          <el-icon class="auto-icon" @click="goPkgs"><document-add /></el-icon>
-        </el-form-item>
-        <el-form-item label="业务库" prop="businessDB">
-          <template #label>
-            <el-tooltip content="注：需要提前到db-list自行配置多数据库，此项为空则会使用gva本库创建自动化代码(global.GVA_DB),填写后则会创建指定库的代码(global.MustGetGlobalDBByDBName(dbname))" placement="bottom" effect="light">
-              <div> 业务库 <el-icon><QuestionFilled /></el-icon> </div>
-            </el-tooltip>
-          </template>
-          <el-select
-            v-model="form.businessDB"
-            style="width:194px"
-            placeholder="选择业务库"
-          >
-            <el-option
-              v-for="item in dbList"
-              :key="item.aliasName"
-              :value="item.aliasName"
-              :label="item.aliasName"
-              :disabled="item.disable"
-            >
-              <div>
-                <span>{{ item.aliasName }}</span>
-                <span style="float:right;color:#8492a6;font-size:13px">{{ item.dbName }}</span>
-              </div>
-            </el-option>
-          </el-select>
-        </el-form-item>
+    <!-- 组件列表 -->
+    <div class="app-container">
+      <el-form :inline="true">
         <el-form-item>
-          <template #label>
-            <el-tooltip content="注：会自动在结构体添加 created_by updated_by deleted_by，方便用户进行资源权限控制" placement="bottom" effect="light">
-              <div> 创建资源标识 <el-icon><QuestionFilled /></el-icon> </div>
-            </el-tooltip>
-          </template>
-          <el-checkbox v-model="form.autoCreateResource" />
-        </el-form-item>
-        <el-form-item>
-          <template #label>
-            <el-tooltip content="注：把自动生成的API注册进数据库" placement="bottom" effect="light">
-              <div> 自动创建API </div>
-            </el-tooltip>
-          </template>
-          <el-checkbox v-model="form.autoCreateApiToSql" />
-        </el-form-item>
-        <el-form-item>
-          <template #label>
-            <el-tooltip content="注：自动迁移生成的文件到yaml配置的对应位置" placement="bottom" effect="light">
-              <div> 自动移动文件 </div>
-            </el-tooltip>
-          </template>
-          <el-checkbox v-model="form.autoMoveFile" />
+          <el-button type="primary" @click="dialogVisible = true" icon="download" size="small">导入表</el-button>
+          <el-button type="primary" @click="editAndAddField()" icon="plus" size="small">新增字段</el-button>
         </el-form-item>
       </el-form>
-    </div>
-    <!-- 组件列表 -->
-    <div class="gva-table-box">
-      <div class="gva-btn-list">
-        <el-button size="small" type="primary" @click="editAndAddField()">新增Field</el-button>
-      </div>
       <el-table :data="form.fields">
         <el-table-column align="left" type="index" label="序列" width="60" />
         <el-table-column align="left" prop="fieldName" label="Field名" width="160">
@@ -267,6 +127,52 @@
         <el-button size="small" type="primary" @click="enterForm(false)">生成代码</el-button>
       </div>
     </div>
+
+    <div class="app-container">
+      <!-- 初始版本自动化代码工具 -->
+      <el-form ref="autoCodeForm" :rules="rules" :model="form" :inline="true" label-width="120px">
+        <el-form-item label="结构体名" prop="structName">
+          <el-input v-model="form.structName" placeholder="首字母自动转换大写" />
+        </el-form-item>
+        <el-form-item label="表名" prop="tableName">
+          <el-input v-model="form.tableName" placeholder="指定表名（非必填）" />
+        </el-form-item>
+        <el-form-item label="结构体简称" prop="abbreviation">
+          <el-input v-model="form.abbreviation" placeholder="简称会作为入参对象名和路由group" />
+        </el-form-item>
+        <el-form-item label="结构体中文名" prop="description">
+          <el-input v-model="form.description" placeholder="中文描述作为自动api描述" />
+        </el-form-item>
+        <el-form-item label="文件名" prop="packageName">
+          <el-input v-model="form.packageName" placeholder="建议为驼峰格式" @blur="toLowerCaseFunc(form,'packageName')" />
+        </el-form-item>
+        <el-form-item label="包名" prop="package">
+          <el-select v-model="form.package" style="width:194px">
+            <el-option v-for="item in pkgs" :key="item.ID" :value="item.packageName" :label="item.packageName" />
+          </el-select>
+          <el-icon class="auto-icon" @click="getPkgs"><refresh /></el-icon>
+          <el-icon class="auto-icon" @click="goPkgs"><document-add /></el-icon>
+        </el-form-item>
+
+        <el-form-item>
+          <template #label>
+            <el-tooltip content="注：把自动生成的API注册进数据库" placement="bottom" effect="light">
+              <div> 自动创建API </div>
+            </el-tooltip>
+          </template>
+          <el-checkbox v-model="form.autoCreateApiToSql" />
+        </el-form-item>
+        <el-form-item>
+          <template #label>
+            <el-tooltip content="注：自动迁移生成的文件到yaml配置的对应位置" placement="bottom" effect="light">
+              <div> 自动移动文件 </div>
+            </el-tooltip>
+          </template>
+          <el-checkbox v-model="form.autoMoveFile" />
+        </el-form-item>
+      </el-form>
+    </div>
+
     <!-- 组件弹窗 -->
     <el-dialog v-model="dialogFlag" width="70%" title="组件内容">
       <FieldDialog v-if="dialogFlag" ref="fieldDialogNode" :dialog-middle="dialogMiddle" />
@@ -293,6 +199,39 @@
         </div>
       </template>
     </el-dialog>
+
+    <el-dialog v-model="dialogVisible">
+      <el-form ref="getTableForm" style="margin-top:24px" :inline="true" :model="dbform" label-width="120px">
+            <el-form-item label="数据库名" prop="structName">
+              <el-select v-model="dbform.dbName" clearable filterable placeholder="请选择数据库" @change="getTableFunc">
+                <el-option
+                  v-for="item in dbOptions"
+                  :key="item.database"
+                  :label="item.database"
+                  :value="item.database"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="表名" prop="structName">
+              <el-select
+                v-model="dbform.tableName"
+                :disabled="!dbform.dbName"
+                filterable
+                placeholder="请选择表"
+              >
+                <el-option
+                  v-for="item in tableOptions"
+                  :key="item.tableName"
+                  :label="item.tableName"
+                  :value="item.tableName"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-button size="small" type="primary" @click="getColumnFunc">使用此表创建</el-button>
+            </el-form-item>
+          </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -305,8 +244,10 @@ import { getDict } from '@/utils/dictionary'
 import { ref, getCurrentInstance, reactive, watch, toRaw } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import WarningBar from '@/components/warningBar/warningBar.vue'
-
+import importTable from "./component/importTable.vue";
+/* import '@/assets/styles/element_visiable.scss'
+ */
+const dialogVisible = ref(false)
 const typeOptions = ref([
   {
     label: '字符串',
@@ -402,7 +343,7 @@ const form = ref({
   description: '',
   businessDB: '',
   autoCreateApiToSql: true,
-  autoMoveFile: true,
+  autoMoveFile: false,
   autoCreateResource: false,
   fields: []
 })
@@ -618,7 +559,7 @@ const getColumnFunc = async() => {
     form.value.abbreviation = tbHump
     form.value.description = tbHump + '表'
     form.value.autoCreateApiToSql = true
-    form.value.autoMoveFile = true
+/*     form.value.autoMoveFile = true */
     form.value.fields = []
     res.data.columns &&
           res.data.columns.forEach(item => {
@@ -641,6 +582,7 @@ const getColumnFunc = async() => {
               })
             }
           })
+    dialogVisible.value = false      
   }
 }
 const setFdMap = async() => {
@@ -718,5 +660,4 @@ export default {
   color: #666;
   cursor: pointer;
 }
-
 </style>
