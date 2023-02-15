@@ -5,7 +5,7 @@
       "destination": "http://111.230.194.21:255/:match*"
     },
     {
-      "source": "/prod-api/autocode/:match*",
+      "source": "http://111.230.194.21:255/autocode/:match*",
       "destination": "http://111.230.194.21:233/autocode/:match*"
     },
     {
