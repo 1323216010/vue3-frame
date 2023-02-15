@@ -123,6 +123,12 @@
     </el-dialog>
 
     <el-dialog v-model="dialogVisible">
+      <el-dialog v-model="pkgsOpen" width="30%" align-center>
+        <autoPkg v-if="pkgsOpen"></autoPkg>
+        <P style="text-align:center">
+          <el-button size="small" @click="pkgsOpen=false">退 出</el-button>
+        </P>
+      </el-dialog>
       <el-form ref="getTableForm" style="margin-top:24px" :inline="true" :model="dbform" label-width="120px">
         <el-form-item label="数据库名" prop="structName">
           <el-row>
@@ -196,8 +202,8 @@
         </el-form-item>
 
         <p style="text-align:center">
-          <el-button @click="reset" plain>取消</el-button>
-          <el-button @click="f" type="primary">确定</el-button>
+          <el-button @click="reset" plain>取 消</el-button>
+          <el-button @click="f" type="primary">确 定</el-button>
         </p>
       </el-form>
     </el-dialog>
@@ -213,9 +219,10 @@ import { getDict } from '@/utils/dictionary'
 import { ref, getCurrentInstance, reactive, watch, toRaw } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import importTable from "./component/importTable.vue";
+import autoPkg from "./component/autoPkg.vue";
 /* import '@/assets/styles/element_visiable.scss'
  */
+const pkgsOpen = ref(false)
 const { proxy } = getCurrentInstance();
 const dialogVisible = ref(false)
 const typeOptions = ref([
@@ -585,7 +592,8 @@ const getPkgs = async () => {
 }
 
 const goPkgs = () => {
-  router.push({ name: 'autoPkg' })
+  pkgsOpen.value = true
+/*   router.push({ name: 'autoPkg' }) */
 }
 
 const init = () => {
