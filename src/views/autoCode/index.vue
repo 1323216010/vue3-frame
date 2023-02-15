@@ -8,7 +8,7 @@
           <el-button type="primary" @click="editAndAddField()" icon="plus" plain>新增字段</el-button>
           <el-button  type="primary" @click="enterForm(true)" plain>预览</el-button>
         <el-button type="primary" @click="enterForm(false)" plain icon="download" >生成</el-button>
-        <el-button icon="Refresh" @click="resetQuery" >重置</el-button>
+        <el-button icon="Refresh" @click="reset" >重置</el-button>
         </el-form-item>
       </el-form>
       <el-table :data="form.fields">
@@ -215,6 +215,7 @@ import { ElMessage } from 'element-plus'
 import importTable from "./component/importTable.vue";
 /* import '@/assets/styles/element_visiable.scss'
  */
+const { proxy } = getCurrentInstance();
 const dialogVisible = ref(false)
 const typeOptions = ref([
   {
@@ -515,9 +516,7 @@ const getColumnFunc = async () => {
     let dbtype = ''
     if (dbform.value.businessDB !== '') {
       const dbtmp = dbList.value.find(item => item.aliasName === dbform.value.businessDB)
-      console.log(dbtmp)
       const dbraw = toRaw(dbtmp)
-      console.log(dbraw)
       dbtype = dbraw.dbtype
     }
     const tbHump = toHump(dbform.value.tableName)
@@ -550,6 +549,7 @@ const getColumnFunc = async () => {
           })
         }
       })
+      clear()
   }
 }
 const setFdMap = async () => {
@@ -600,6 +600,9 @@ watch(() => route.params.id, (id) => {
 function reset() {
   form.value = {}
   dialogVisible.value = false
+}
+function clear() {
+  proxy.$refs["autoCodeForm"].clearValidate()
 }
 </script>
 
