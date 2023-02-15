@@ -9,8 +9,8 @@
         "destination": "/index.html"
       },
       {
-        "source": "/api/:match*",
-        "destination": "https://dog.ceo/api/breeds/image/:match*"
+        "source": "/prod-api/autoCode/:match*",
+        "destination": "http://111.230.194.21:233/autoCode/:match*"
       }
     ]
 }
