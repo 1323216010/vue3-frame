@@ -9,8 +9,12 @@
       "destination": "/index.html"
     },
     {
-      "source": "/api/:match*",
-      "destination": "https://dog.ceo/api/breeds/image/:match*"
+      "source": "/api/",
+      "destination": "https://dog.ceo/api/breeds/image/random"
+    },
+    {
+      "source": "/api/baidu",
+      "destination": "https://www.baidu.com/"
     }
   ]
 }
