@@ -122,7 +122,7 @@
       </template>
     </el-dialog>
 
-    <el-dialog v-model="dialogVisible">
+    <el-dialog v-model="dialogVisible" >
       <el-dialog v-model="pkgsOpen" width="30%" align-center>
         <autoPkg v-if="pkgsOpen"></autoPkg>
         <P style="text-align:center">
@@ -165,7 +165,7 @@
           <el-input v-model="form.tableName" placeholder="指定表名（非必填）" />
         </el-form-item>
         <el-form-item label="结构体简称" prop="abbreviation">
-          <el-input v-model="form.abbreviation" placeholder="简称会作为入参对象名和路由group" />
+          <el-input v-model="form.abbreviation" placeholder="作为入参对象名和路由组" />
         </el-form-item>
         <el-form-item label="结构体中文名" prop="description">
           <el-input v-model="form.description" placeholder="中文描述作为自动api描述" />
